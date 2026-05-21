@@ -87,6 +87,18 @@ nav{background:var(--blue-dark);padding:12px 40px;display:flex;align-items:cente
 .submit-btn:hover{background:var(--blue-dark)}
 .form-note{text-align:center;font-size:11px;color:var(--text-muted);margin-top:10px}
 
+.garanties-box{border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;background:#fafcff}
+.garantie-item{border-bottom:1px solid var(--border);padding:8px 0}
+.garantie-item:last-child{border-bottom:none}
+.garantie-label{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text)}
+.garantie-label input[type=checkbox]{width:18px;height:18px;accent-color:var(--blue);cursor:pointer;flex-shrink:0}
+.garantie-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:0.5px}
+.garantie-tag.obligatoire{background:#FEF3C7;color:#92400E}
+.sous-option{margin-top:8px;margin-left:28px;padding:10px 12px;background:var(--blue-light);border-radius:8px;border-left:3px solid var(--blue)}
+.option-btns{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.opt-btn{padding:6px 16px;border:1.5px solid var(--blue);border-radius:6px;background:#fff;color:var(--blue);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Outfit',sans-serif}
+.opt-btn.selected{background:var(--blue);color:#fff}
+
 /* SECTIONS */
 .section-wrap{padding:72px 40px;max-width:1100px;margin:0 auto}
 .section-title{text-align:center;font-size:clamp(22px,3vw,32px);font-weight:800;color:var(--blue-dark);margin-bottom:8px}
@@ -281,7 +293,11 @@ footer{background:#06204A;color:rgba(255,255,255,0.75);padding:48px 40px 28px;fo
             </div>
           </div>
           <div class="form-row">
-            <div class="form-group full">
+            <div class="form-group">
+              <label>Immatriculation</label>
+              <input type="text" placeholder="Ex: DK 1234 AB">
+            </div>
+            <div class="form-group">
               <label>Durée de couverture souhaitée</label>
               <select>
                 <option value="">Sélectionner...</option>
@@ -290,6 +306,112 @@ footer{background:#06204A;color:rgba(255,255,255,0.75);padding:48px 40px 28px;fo
                 <option>6 mois</option>
                 <option>1 an</option>
               </select>
+            </div>
+          </div>
+
+          <!-- GARANTIES -->
+          <div class="form-group full" style="margin-top:8px">
+            <label>Garanties souhaitées</label>
+            <div class="garanties-box">
+
+              <!-- RC -->
+              <div class="garantie-item">
+                <label class="garantie-label">
+                  <input type="checkbox" id="g-rc" checked onchange="updateGaranties()">
+                  <span>Responsabilité civile <span class="garantie-tag obligatoire">Obligatoire</span></span>
+                </label>
+              </div>
+
+              <!-- Bris de glace -->
+              <div class="garantie-item">
+                <label class="garantie-label">
+                  <input type="checkbox" id="g-bdg" onchange="updateGaranties()">
+                  <span>Bris de glace</span>
+                </label>
+              </div>
+
+              <!-- Personnes transportées -->
+              <div class="garantie-item">
+                <label class="garantie-label">
+                  <input type="checkbox" id="g-pt" onchange="updateGaranties()">
+                  <span>Personnes transportées</span>
+                </label>
+                <div class="sous-option" id="so-pt" style="display:none">
+                  <label style="font-size:12px;color:var(--text-muted);font-weight:600">Option :</label>
+                  <div class="option-btns">
+                    <button type="button" class="opt-btn" onclick="selectOption('pt',1)">Option 1</button>
+                    <button type="button" class="opt-btn" onclick="selectOption('pt',2)">Option 2</button>
+                    <button type="button" class="opt-btn" onclick="selectOption('pt',3)">Option 3</button>
+                  </div>
+                  <input type="hidden" id="val-pt" value="">
+                </div>
+              </div>
+
+              <!-- Avance sur recours -->
+              <div class="garantie-item">
+                <label class="garantie-label">
+                  <input type="checkbox" id="g-asr" onchange="updateGaranties()">
+                  <span>Avance sur recours</span>
+                </label>
+                <div class="sous-option" id="so-asr" style="display:none">
+                  <label style="font-size:12px;color:var(--text-muted);font-weight:600">Option :</label>
+                  <div class="option-btns">
+                    <button type="button" class="opt-btn" onclick="selectOption('asr',1)">Option 1</button>
+                    <button type="button" class="opt-btn" onclick="selectOption('asr',2)">Option 2</button>
+                    <button type="button" class="opt-btn" onclick="selectOption('asr',3)">Option 3</button>
+                  </div>
+                  <input type="hidden" id="val-asr" value="">
+                </div>
+              </div>
+
+              <!-- Incendie -->
+              <div class="garantie-item">
+                <label class="garantie-label">
+                  <input type="checkbox" id="g-inc" onchange="updateGaranties()">
+                  <span>Incendie</span>
+                </label>
+                <div class="sous-option" id="so-inc" style="display:none">
+                  <label style="font-size:12px;color:var(--text-muted);font-weight:600">Valeur du véhicule (FCFA) :</label>
+                  <input type="text" placeholder="Ex: 8 000 000 FCFA" id="val-inc" style="margin-top:4px">
+                </div>
+              </div>
+
+              <!-- Vol -->
+              <div class="garantie-item">
+                <label class="garantie-label">
+                  <input type="checkbox" id="g-vol" onchange="updateGaranties()">
+                  <span>Vol</span>
+                </label>
+                <div class="sous-option" id="so-vol" style="display:none">
+                  <label style="font-size:12px;color:var(--text-muted);font-weight:600">Valeur du véhicule (FCFA) :</label>
+                  <input type="text" placeholder="Ex: 8 000 000 FCFA" id="val-vol" style="margin-top:4px">
+                </div>
+              </div>
+
+              <!-- Tierce collision -->
+              <div class="garantie-item">
+                <label class="garantie-label">
+                  <input type="checkbox" id="g-tc" onchange="updateGaranties()">
+                  <span>Tierce collision</span>
+                </label>
+                <div class="sous-option" id="so-tc" style="display:none">
+                  <label style="font-size:12px;color:var(--text-muted);font-weight:600">Valeur du véhicule (FCFA) :</label>
+                  <input type="text" placeholder="Ex: 8 000 000 FCFA" id="val-tc" style="margin-top:4px">
+                </div>
+              </div>
+
+              <!-- Tous risques -->
+              <div class="garantie-item">
+                <label class="garantie-label">
+                  <input type="checkbox" id="g-tr" onchange="updateGaranties()">
+                  <span>Tous risques</span>
+                </label>
+                <div class="sous-option" id="so-tr" style="display:none">
+                  <label style="font-size:12px;color:var(--text-muted);font-weight:600">Valeur du véhicule (FCFA) :</label>
+                  <input type="text" placeholder="Ex: 8 000 000 FCFA" id="val-tr" style="margin-top:4px">
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -319,6 +441,12 @@ footer{background:#06204A;color:rgba(255,255,255,0.75);padding:48px 40px 28px;fo
               <label>Valeur des aménagements (FCFA)</label>
               <input type="text" placeholder="Ex: 2 000 000 FCFA">
             </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group full">
+            <label>Email (pour recevoir votre devis)</label>
+            <input type="email" id="client-email" placeholder="Ex: amadou.diop@gmail.com">
           </div>
         </div>
         <div class="form-row">
@@ -574,72 +702,102 @@ function toggleFaq(el){
   el.classList.toggle('open');
 }
 
+function updateGaranties(){
+  ['inc','vol','tc','tr','pt','asr'].forEach(id => {
+    const cb = document.getElementById('g-'+id);
+    const so = document.getElementById('so-'+id);
+    if(so) so.style.display = (cb && cb.checked) ? 'block' : 'none';
+  });
+}
+
+function selectOption(id, num){
+  const btns = document.querySelectorAll('#so-'+id+' .opt-btn');
+  btns.forEach((b,i) => b.classList.toggle('selected', i===num-1));
+  document.getElementById('val-'+id).value = 'Option '+num;
+}
+
+function getGaranties(){
+  const list = [];
+  [{id:'rc',label:'Responsabilité civile'},{id:'bdg',label:'Bris de glace'},{id:'pt',label:'Personnes transportées',opt:true},{id:'asr',label:'Avance sur recours',opt:true},{id:'inc',label:'Incendie',val:true},{id:'vol',label:'Vol',val:true},{id:'tc',label:'Tierce collision',val:true},{id:'tr',label:'Tous risques',val:true}].forEach(g => {
+    const cb = document.getElementById('g-'+g.id);
+    if(cb && cb.checked){
+      let line = '✓ '+g.label;
+      const v = document.getElementById('val-'+g.id);
+      if(g.opt && v && v.value) line += ' ('+v.value+')';
+      if(g.val && v && v.value) line += ' — Valeur: '+v.value;
+      list.push(line);
+    }
+  });
+  return list.length ? list.join('\n') : '✓ Responsabilité civile uniquement';
+}
+
 async function sendDevis(){
   const btn = document.getElementById('submit-btn');
-
-  // Collect common fields
   const nom = document.querySelector('input[placeholder="Ex: Amadou Diop"]').value.trim();
   const tel = document.querySelector('input[placeholder="+221 77 000 00 00"]').value.trim();
-  const pays = document.querySelectorAll('select')[document.querySelectorAll('select').length - 1].value;
-  const typeAssurance = document.getElementById('btn-auto').classList.contains('active') ? 'Auto' : 'Habitation';
+  const emailEl = document.getElementById('client-email');
+  const email = emailEl ? emailEl.value.trim() : '';
+  const selects = document.querySelectorAll('select');
+  const pays = selects[selects.length-1].value;
+  const isAuto = document.getElementById('btn-auto').classList.contains('active');
+  const typeAssurance = isAuto ? 'Auto' : 'Habitation';
 
-  if(!nom || !tel){
-    alert('Veuillez renseigner votre nom et votre téléphone.');
-    return;
-  }
+  if(!nom || !tel){ alert('Veuillez renseigner votre nom et votre téléphone.'); return; }
 
-  // Build message based on type
   let details = '';
-  if(typeAssurance === 'Auto'){
+  if(isAuto){
     const marque = document.querySelector('input[placeholder="Toyota, Peugeot, Renault..."]').value;
-    const typeVeh = document.querySelectorAll('select')[0].value;
-    const usage = document.querySelectorAll('select')[1].value;
+    const immat = document.querySelector('input[placeholder="Ex: DK 1234 AB"]') ? document.querySelector('input[placeholder="Ex: DK 1234 AB"]').value : '';
     const puissance = document.querySelector('input[placeholder="Ex: 7 CV  ou  1600 cm³"]').value;
-    const duree = document.querySelectorAll('select')[2].value;
-    details = `Type: Assurance Auto
-Marque: ${marque}
-Type de véhicule: ${typeVeh}
-Usage: ${usage}
-Puissance: ${puissance}
-Durée souhaitée: ${duree}`;
+    details = `TYPE         : Assurance Auto
+MARQUE       : ${marque}
+IMMAT.       : ${immat}
+TYPE VEH.    : ${selects[0].value}
+USAGE        : ${selects[1].value}
+PUISSANCE    : ${puissance}
+DURÉE        : ${selects[2].value}
+
+GARANTIES SOUHAITÉES :
+${getGaranties()}`;
   } else {
-    const typeBien = document.querySelectorAll('select')[0].value;
-    const valeurBatiment = document.querySelector('input[placeholder="Ex: 150 000 FCFA/mois ou 25 000 000 FCFA"]').value;
-    const valeurMobilier = document.querySelector('input[placeholder="Ex: 3 000 000 FCFA"]').value;
-    const valeurAmenagements = document.querySelector('input[placeholder="Ex: 2 000 000 FCFA"]').value;
-    details = `Type: Assurance Habitation
-Type de bien: ${typeBien}
-Valeur bâtiment/loyer: ${valeurBatiment}
-Valeur mobilier: ${valeurMobilier}
-Valeur aménagements: ${valeurAmenagements}`;
+    const valBat = document.querySelector('input[placeholder="Ex: 150 000 FCFA/mois ou 25 000 000 FCFA"]');
+    const valMob = document.querySelector('input[placeholder="Ex: 3 000 000 FCFA"]');
+    const valAmen = document.querySelector('input[placeholder="Ex: 2 000 000 FCFA"]');
+    details = `TYPE              : Assurance Habitation
+TYPE DE BIEN      : ${selects[0].value}
+VALEUR BÂTIMENT   : ${valBat ? valBat.value : ''}
+VALEUR MOBILIER   : ${valMob ? valMob.value : ''}
+VALEUR AMÉNAG.    : ${valAmen ? valAmen.value : ''}`;
   }
 
-  const message = `NOUVEAU DEVIS AFRICASSUR
-
-Nom: ${nom}
-Téléphone: ${tel}
-Pays: ${pays}
-
-${details}`;
+  const message = `========================================
+NOUVEAU DEVIS AFRICASSUR
+========================================
+NOM COMPLET  : ${nom}
+TELEPHONE    : ${tel}
+EMAIL        : ${email || 'Non renseigné'}
+PAYS         : ${pays}
+----------------------------------------
+${details}
+========================================
+→ Rappeler ce client : ${tel}
+→ Répondre par email : ${email || 'Non renseigné'}
+========================================`;
 
   btn.textContent = 'Envoi en cours...';
   btn.disabled = true;
 
   try {
-    const response = await fetch('https://formspree.io/f/mgoqorjb', {
+    const res = await fetch('https://formspree.io/f/mgoqorjb', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      headers: {'Content-Type':'application/json','Accept':'application/json'},
       body: JSON.stringify({
-        nom: nom,
-        telephone: tel,
-        pays: pays,
-        type_assurance: typeAssurance,
-        details: message,
-        _subject: 'Nouveau devis AFRICASSUR — ' + typeAssurance + ' — ' + nom
+        _subject: '📋 Devis '+typeAssurance+' — '+nom+' — '+tel,
+        _replyto: email || 'pas-email@africassur.com',
+        message: message
       })
     });
-
-    if(response.ok){
+    if(res.ok){
       btn.textContent = '✅ Demande reçue ! Nous vous rappelons sous 24h';
       btn.style.background = '#0D6B42';
     } else {
